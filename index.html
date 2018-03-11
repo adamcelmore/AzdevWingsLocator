@@ -10,6 +10,7 @@
        #map ,#pano{
         height: 400px;
         width: 80%;
+        margin-left: 10%;
        }
       
       h1 {
@@ -70,8 +71,8 @@
     </style>
   </head>
   <body>
-    <div class="nav-wrapper">
-      <h1 class="col-xs-offset-5">Wings N Things <img id ="wings-image" src="http://www.wingsnthings.com.php56-19.dfw3-1.websitetestlink.com/img/monogram.png"></h1>
+    <div class="nav-wrapper col-xs-offset-5">
+      <h1>Wings N Things <img id ="wings-image" src="http://www.wingsnthings.com.php56-19.dfw3-1.websitetestlink.com/img/monogram.png"></h1>
 
             <nav class="navbar navbar-default nav-bar-css">
                 <ul class="nav navbar-nav">
@@ -82,7 +83,7 @@
             </nav>       
         </div>
     <div>
-      <input id="pac-input" value="Wings n things">
+      <input class="col-xs-offset-4 col-sm-offset-1 col-md-offset-1 col-lg-offset-1" id="pac-input" value="Wings n things">
     </div>
     
     <div id="map-section">
@@ -250,8 +251,9 @@
       
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZTuXusKa3a7u2wzwNtZ6sBW-LWrVI9DY&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZTuXusKa3a7u2wzwNtZ6sBW-LWrVI9DY&libraries=places&callback=initMap">
     </script>
     
   </body>
 </html>
+
