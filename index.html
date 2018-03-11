@@ -66,7 +66,7 @@
         console.log("display route"+userPos);
         directionsService.route({
           origin: userPos,
-          destination: userPos,
+          destination: {lat: 32.770931, lng:  -117.070181},
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
