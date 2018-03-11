@@ -46,6 +46,7 @@
             };
              userPos=pos;
               console.log(userPos);
+              calculateAndDisplayRoute(directionsService, directionsDisplay);
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
             infoWindow.open(map);
@@ -58,7 +59,7 @@
           handleLocationError(false, infoWindow, map.getCenter());
         }
           directionsDisplay.setMap(map);
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        
       }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         console.log("display route"+userPos);
