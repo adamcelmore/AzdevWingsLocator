@@ -7,10 +7,9 @@
         body {
             background-color: black;
         }
-        
-       #map {
+       #map ,#pano{
         height: 400px;
-        width: 100%;
+        width: 80%;
        }
       
       h1 {
@@ -64,14 +63,16 @@
         border: none;
       }
       
+      #wings-image {
+        width:50px;
+      }
+      
     </style>
   </head>
   <body>
     <div class="nav-wrapper">
-      <h1 class="col-">Wings N Things</h1>
-      <div>
-        
-      </div>
+      <h1 class="col-xs-offset-5">Wings N Things <img id ="wings-image" src="http://www.wingsnthings.com.php56-19.dfw3-1.websitetestlink.com/img/monogram.png"></h1>
+
             <nav class="navbar navbar-default nav-bar-css">
                 <ul class="nav navbar-nav">
                     <li class="nav-label"><button>WINGS</button></li>
@@ -80,7 +81,14 @@
                 </ul>
             </nav>       
         </div>
-    <div id="map"></div>
+    <div>
+      <input id="pac-input" value="Wings n things">
+    </div>
+    
+    <div id="map-section">
+    <div id="map" class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"></div>
+    <div id="pano" class="col-xs-offset-1 col-sm-offset-1 col-md-offset-1 col-lg-offset-1"></div>
+    </div>
     
     <script>
       
@@ -132,6 +140,69 @@
             infoWindow.open(map);
             map.setCenter(defaultLoc);
         }
+        initializeStreetView();
+        
+        
+        
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+        
+        
         
       }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -162,20 +233,21 @@
         //userPos={lat: 32.774686, lng:-117.070434}
         //infoWindow.open(map);
       }
-      function toggleStreetView() {
-        panorama = map.getStreetView();
-        panorama.setPosition(destination);
-        panorama.setPov(/** @type {google.maps.StreetViewPov} */({
-          heading: 265,
-          pitch: 0
-        }));
-        var toggle = panorama.getVisible();
-        if (toggle == false) {
-          panorama.setVisible(true);
-        } else {
-          panorama.setVisible(false);
-        }
+      function initializeStreetView() {
+        var fenway = destination;
+        var panorama = new google.maps.StreetViewPanorama(
+            document.getElementById('pano'), {
+              position: fenway,
+              pov: {
+                heading: 34,
+                pitch: 10
+              }
+            });
+        map.setStreetView(panorama);
       }
+      
+      
+      
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZTuXusKa3a7u2wzwNtZ6sBW-LWrVI9DY&callback=initMap">
