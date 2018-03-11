@@ -43,7 +43,8 @@
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-             userPos=pos; 
+             userPos=pos;
+              console.log(userPos);
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
             infoWindow.open(map);
@@ -59,6 +60,7 @@
         calculateAndDisplayRoute(directionsService, directionsDisplay);
       }
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        console.log(userPos);
         directionsService.route({
           origin: userPos,
           destination: userPos,
